@@ -1,0 +1,11 @@
+entorno2/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+lib/
+lib64/
+include/
+Scripts/
