@@ -1,7 +1,29 @@
-import subprocess
+# Este programa crea dos procesos que se comunican de forma sincronizada.
+# Un proceso imprime "ping" y el otro imprime "pong" de manera alterna.
+# Se usan locks para garantizar que solo un proceso imprime a la vez, creando un efecto de "ping-pong".
 
-proceso_1 = subprocess.run(args=["ls", "-l"], capture_output=True, text=True)
-#print(proceso_1.stdout)
-print(proceso_1.returncode)
-proceso_2 = subprocess.run(args=["grep", "process"], input=proceso_1.stdout, capture_output=True, text=True)
-print(proceso_2.stdout)
+import time
+from multiprocessing import Process, Lock  # Para crear procesos y sincronizarlos
+
+lock_1 = Lock()  # Lock para el proceso ping
+lock_2 = Lock()  # Lock para el proceso pong
+
+lock_2.acquire()  # Bloquea pong al inicio para que ping empiece primero
+
+def ping(lock_1, lock_2):
+    while True:
+        lock_1.acquire()  # Espera a que ping pueda ejecutarse
+        print("ping")  # Imprime "ping"
+        time.sleep(0.2)  # Pausa para ver el efecto
+        lock_2.release()  # Desbloquea pong
+
+def pong(lock_1, lock_2):
+    while True:
+        lock_2.acquire()  # Espera a que pong pueda ejecutarse
+        print("\t\tpong")  # Imprime "pong" con tabulación
+        time.sleep(0.2)  # Pausa para ver el efecto
+        lock_1.release()  # Desbloquea ping
+
+# Crear y lanzar procesos ping y pong
+Process(target=ping, args=(lock_1, lock_2)).start()
+Process(target=pong, args=(lock_1, lock_2)).start()

@@ -8,11 +8,11 @@ import os          # Para operaciones con rutas
 
 # Lista de ejercicios a evaluar (archivo, puntos)
 EXAMS = [
-    ("exam1_subprocess.py", 20),
-    ("exam2_pipe.py", 20),
-    ("exam3_lock.py", 20),
-    ("exam4_signals.py", 20),
-    ("exam5_queue.py", 20),
+    ("PSP/UT1/ut1_examenes/exam1_subprocess.py", 20),
+    ("PSP/UT1/ut1_examenes/exam2_pipe.py", 20),
+    ("PSP/UT1/ut1_examenes/exam3_lock.py", 20),
+    ("PSP/UT1/ut1_examenes/exam4_signals.py", 20),
+    ("PSP/UT1/ut1_examenes/exam5_queue.py", 20),
 ]
 
 def run_test(file):

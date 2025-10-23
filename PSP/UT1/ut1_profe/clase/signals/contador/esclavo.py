@@ -1,7 +1,13 @@
-import os
-import signal
+# Este programa actúa como un contador controlado por señales.
+# SIGUSR1 → empezar a contar desde 0.
+# SIGUSR2 → parar el contador.
+# SIGINT → continuar el conteo desde donde se quedó.
 
-def empezar(signum, frame): #sigusr1
+import os      # Para obtener el PID del proceso
+import signal  # Para manejar señales del sistema
+
+# Función que inicia el conteo desde 0
+def empezar(signum, frame):  # SIGUSR1
     global contando, contador
     contando = True
     contador = 0
@@ -9,27 +15,29 @@ def empezar(signum, frame): #sigusr1
         contador += 1
         print(contador)
 
-def parar(signum, frame): #sigusr2
+# Función que detiene el conteo
+def parar(signum, frame):  # SIGUSR2
     global contando
     contando = False
 
-def continuar(signum, frame):
+# Función que continúa el conteo desde el valor actual
+def continuar(signum, frame):  # SIGINT
     global contando, contador
     contando = True
     while contando:
         contador += 1
         print(contador)
 
+contador = 0     # Valor inicial del contador
+contando = False # Indicador de si se está contando
 
-contador = 0
-contando = False
+print(os.getpid())  # Mostrar PID para enviar señales
 
-print(os.getpid())
-
+# Asociar señales con funciones
 signal.signal(signal.SIGUSR1, empezar)
 signal.signal(signal.SIGUSR2, parar)
 signal.signal(signal.SIGINT, continuar)
-signal.SIG
 
+# Bucle infinito esperando señales
 while True:
     signal.pause()
