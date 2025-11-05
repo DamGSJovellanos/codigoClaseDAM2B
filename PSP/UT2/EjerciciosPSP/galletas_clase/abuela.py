@@ -1,4 +1,3 @@
-from threading import Condition
 import time
 
 class Abuela:
@@ -14,7 +13,7 @@ class Abuela:
                     self.mesa.condition.wait()
                 self.mesa.condition.notify_all()
             print(f"Abuela va a preparar galletas")
-            time.time(self.tiempo_cocinado)
+            time.sleep(self.tiempo_cocinado)
             print(f"Abuela ha prerado las galletas")
             with self.mesa.condition:
                 self.mesa.ayadir_bandeja(self.galletas_bandeja)
