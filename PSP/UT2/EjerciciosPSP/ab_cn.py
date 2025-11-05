@@ -2,17 +2,16 @@ import threading, time, random                     # importamos módulos: thread
 
 # --- Configuración ---
 MAX_GALLETAS = 100                                # límite de galletas que puede haber en la mesa
-PRODUCCION_POR_MIN = 10                           # abuela produce 10 galletas por minuto (simulado)
-TIEMPO_SIM_MIN = 1                                # 1 minuto simulado = 1 segundo real
-TIEMPO_PRODUCCION = TIEMPO_SIM_MIN / PRODUCCION_POR_MIN
+PRODUCCION = 10                                   # abuela produce 10 galletas por minuto (simulado)
+TIEMPO_PRODUCCION = 1
 # tiempo real entre galletas producidas:
-# 1 min simulado = 1s real, produce 10 galletas por ese minuto => 1/10 s real por galleta (0.1 s)
+# 1 min simulado = 1s real, produce 10 galletas por ese minuto 
 
-TIEMPO_COMER = (20 / 60) * TIEMPO_SIM_MIN
+TIEMPO_COMER = 0.33
 # tiempo real que tarda un nieto en comerse 1 galleta:
-# 20 segundos simulados -> 20/60 minutos simulados -> multiplicado por 1s/min simulado = 0.333... s real
+# 20 segundos simulados = 0.333... s real
 
-ESPERA_EXTRA = 3 * TIEMPO_SIM_MIN
+ESPERA_EXTRA = 3
 # tiempo real de espera extra si hay exceso de galletas:
 # 3 minutos simulados => 3 s reales por cada galleta de exceso
 

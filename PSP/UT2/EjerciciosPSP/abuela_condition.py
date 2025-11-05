@@ -2,21 +2,20 @@ import threading
 import time
 import random
 
-buffer = []
+mesa = [] # maximo 100
 condition = threading.Condition()
 MAX = 100
 
 
 def Abuela():
-    
     with condition: 
-        while len(buffer) >= MAX: 
+        while len(mesa) >= MAX: 
                 condition.wait()
-        if not len(buffer) >= MAX:
-            buffer.append(10)
+        if not len(mesa) >= MAX:
+            mesa.append(10)
             print("add 10 galletas") 
             condition.notify() # alertar a consumidor 
-        time.sleep(random.random())
+        time.sleep(1)
 
 def Nieto():
     pass
