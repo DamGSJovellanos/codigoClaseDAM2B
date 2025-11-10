@@ -1,5 +1,5 @@
 from peewee import *
-from Base_Model import BaseModel
+from .Base_Model import BaseModel
 
 class UbicacionModel(BaseModel):
     id_ubicacion = AutoField()

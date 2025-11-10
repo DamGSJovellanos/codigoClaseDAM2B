@@ -1,9 +1,8 @@
 from peewee import *
-from Base_Model import BaseModel
+from Modelos.Base_Model import BaseModel
+from Modelos.Ubicaciones_Model import UbicacionModel
 
-class Ubicacion(BaseModel):
-    id_ubicacion = AutoField()
-    nombre = TextField(null=False)
-    descripcion = TextField(null=True)
-    tipo = TextField(null=True)
-    
+@staticmethod
+def insertar_Ubicaciones(dicc):
+    for data in dicc:
+        UbicacionModel.create(**dicc)

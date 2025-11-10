@@ -1,8 +1,8 @@
 from peewee import *
-from Base_Model import BaseModel
+from .Base_Model import BaseModel
 
-from Enemigos_Model import EnemigoModel
-from Objetos_Model import ObjetoModel
+from .Enemigos_Model import EnemigoModel
+from .Objetos_Model import ObjetoModel
 
 class EnemigoObjetoModel(BaseModel):
     id_enemigo = ForeignKeyField(EnemigoModel, backref='objeto_de_enemigo', on_delete='CASCADE')
