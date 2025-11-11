@@ -1,28 +1,31 @@
 from peewee import *
-from Modelos.Ubicaciones_Model import UbicacionModel
-from Modelos.Personajes_Model import PersonajeModel
+from Modelos.Ubicaciones_Model import Ubicacion
+from Modelos.Personajes_Model import Personaje
 from Modelos.Enemigos_Model import EnemigoModel
 from Modelos.Objetos_Model import ObjetoModel
 from Modelos.Personajes_Objetos_Model import PersonajeObjetoModel
 from Modelos.Enemigos_Objetos_Model import EnemigoObjetoModel
 
-from Repositorios.Ubicaciones import UbicacionRepository
+from Repositorios.Ubicaciones import UbicacionRepo
+from Repositorios.Personajes import PersonajeRepo
 
 
 def ingesta(db):
     
+    db.execute_sql('PRAGMA foreign_keys = OFF;')
     # Drop: primero las tablas dependientes
     db.drop_tables([
         EnemigoObjetoModel,
         PersonajeObjetoModel,
         ObjetoModel,
         EnemigoModel,
-        PersonajeModel,
-        UbicacionModel
-    ])
+        Personaje,
+        Ubicacion
+    ], safe=True)
 
     # Create: primero las tablas de las que dependen las otras
-    db.create_tables([ UbicacionModel, PersonajeModel, EnemigoModel, ObjetoModel, PersonajeObjetoModel, EnemigoObjetoModel ], safe=True)
+    db.create_tables([ Ubicacion, Personaje, EnemigoModel, ObjetoModel, PersonajeObjetoModel, EnemigoObjetoModel ], safe=True)
+    db.execute_sql('PRAGMA foreign_keys = ON;')
 
     print("Base de datos creada")
 
@@ -38,9 +41,18 @@ def ingesta(db):
 
     # Personajes
     personajes = [
-        {"nombre": "Aria", "descripcion": "Mercader amigable", "id_ubicacion": 1, "da_objeto": True, "rol": "mercader"},
-        {"nombre": "Borin", "descripcion": "NPC guia", "id_ubicacion": 2, "da_objeto": False, "rol": "NPC"},
-        {"nombre": "Ciri", "descripcion": "Comerciante de rarezas", "id_ubicacion": 1, "da_objeto": True, "rol": "mercader"}
+        {"nombre": "Jerjes", "descripcion": "Mercader amigable", "id_ubicacion": 1, "da_objeto": True, "rol": "mercader"},
+        {"nombre": "Manolo", "descripcion": "NPC guia", "id_ubicacion": 2, "da_objeto": False, "rol": "NPC"},
+        {"nombre": "Yokai", "descripcion": "Comerciante de rarezas", "id_ubicacion": 1, "da_objeto": True, "rol": "mercader"}
+        
+    ]
+     # --- Inserciones ---
+    datos_personajes = [
+        ("Aria", "Mercader amigable", 1, True, "mercader"),
+        ("Borin", "Guía NPC", 2, False, "NPC"),
+        ("Ciri", "Comerciante de rarezas", 1, True, "mercader"),
+        ("Dandelion", "Bardo errante", 2, False, "NPC"),
+        ("Eredin", "Villano poderoso", 3, True, "villano")
     ]
 
     # Enemigos
@@ -71,10 +83,11 @@ def ingesta(db):
 
     # Inserción con Peewee
     with db.atomic():
-        UbicacionRepository.insertar_ubicaciones(ubicaciones)
-        
-        for data in personajes:
-            PersonajeModel.create(**data)
+        UbicacionRepo.insertar_ubicaciones(ubicaciones)
+        PersonajeRepo.insertar_personajes(personajes)
+
+        PersonajeRepo.ingesta_multiple(db, datos_personajes)
+
         for data in enemigos:
             EnemigoModel.create(**data)
         for data in objetos:
