@@ -704,7 +704,7 @@ Ordenar <section> por id, category, etc., y reescribir el XML.
     public static void ordenaroPorAtributo(String rutaArchivo, String categoriaOrdenar){
 
         try {
-            // Crear un objeto Path moderno a partir de la ruta proporcionada como parámetro
+            // Crear un objeto Path moderno a partir de la ruta
             Path rutaXML = Path.of(rutaArchivo);
 
             // Comprobar si el archivo existe; si no, mostrar error y salir del método
