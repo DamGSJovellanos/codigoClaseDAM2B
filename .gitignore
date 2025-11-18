@@ -1,4 +1,5 @@
 entorno2/
+venv/
 __pycache__/
 *.pyc
 *.pyo
